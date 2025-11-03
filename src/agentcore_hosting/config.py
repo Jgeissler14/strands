@@ -13,6 +13,7 @@ class AgentcoreConfig:
     """Runtime configuration for the hosted Agentcore agent."""
 
     aws_region: str
+    agent_id: str
     host: str = "0.0.0.0"
     port: int = 8080
     strands_workspace_id: Optional[str] = None
@@ -39,6 +40,7 @@ class AgentcoreConfig:
 
         return cls(
             aws_region=_require("AWS_REGION"),
+            agent_id=_require("AGENTCORE_AGENT_ID"),
             host=os.getenv("AGENTCORE_HOST", "0.0.0.0"),
             port=int(os.getenv("AGENTCORE_PORT", "8080")),
             strands_workspace_id=os.getenv("STRANDS_WORKSPACE_ID"),

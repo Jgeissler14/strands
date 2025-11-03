@@ -49,7 +49,7 @@ pyproject.toml             # Python project metadata and dependencies
 
    Copy `.env.example` to `.env` and populate the values:
 
-   - `AWS_REGION` is required for Agentcore.
+   - `AWS_REGION` and `AGENTCORE_AGENT_ID` are required for Agentcore.
    - `AGENTCORE_HOST` and `AGENTCORE_PORT` control the HTTP runtime binding.
    - `STRANDS_API_KEY`, `STRANDS_WORKSPACE_ID`, and the tool agent IDs connect to
      Strands once those agents are provisioned.

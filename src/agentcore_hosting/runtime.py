@@ -32,6 +32,7 @@ async def handle_turn(event: Dict[str, Any]) -> Dict[str, Any]:
     session_state.setdefault("metadata", {})
     session_state["metadata"].update({
         "aws_region": config.aws_region,
+        "agent_id": config.agent_id,
     })
 
     return {
