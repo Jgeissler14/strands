@@ -1,0 +1,27 @@
+[project]
+name = "agentcore-team-lead"
+version = "0.1.0"
+description = "Team Lead agent orchestrating Strands tool agents for AWS Agentcore."
+authors = [{ name = "Your Team" }]
+requires-python = ">=3.11"
+dependencies = [
+  "boto3>=1.34.0",
+  "python-dotenv>=1.0.1",
+  "fastapi>=0.110.0",
+  "uvicorn>=0.29.0",
+]
+
+[project.optional-dependencies]
+strands = [
+  "strands-agents>=0.1.0; python_version>='3.10'",
+]
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
