@@ -1,0 +1,19 @@
+# Manifest aligning with the AWS Bedrock Agentcore toolkit requirements.
+schema_version: 2023-10-31
+name: team-lead-agent
+runtime:
+  entrypoint: agentcore_hosting.runtime:app
+  runtime: python3.11
+  interface: asgi
+  port: ${AGENTCORE_PORT}
+infrastructure:
+  aws:
+    region: ${AWS_REGION}
+    execution_role: arn:aws:iam::123456789012:role/AgentcoreExecutionRole
+    toolkit: bedrock-agentcore
+metadata:
+  description: >-
+    Hosted Team Lead agent that orchestrates Strands contribution margin and
+    company data specialists as tools.
+  instructions:
+    - Ensure STRANDS_API_KEY and agent IDs are set before deploying.
