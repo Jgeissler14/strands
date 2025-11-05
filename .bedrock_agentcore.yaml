@@ -24,21 +24,21 @@ agents:
         idle_runtime_session_timeout: null
         max_lifetime: null
     bedrock_agentcore:
-      agent_id: team_lead-r8xwK2D9SG
-      agent_arn: arn:aws:bedrock-agentcore:us-east-1:858946449855:runtime/team_lead-r8xwK2D9SG
-      agent_session_id: 1414d763-7c2c-4c3b-ae95-71088184b174
+      agent_id: team_lead-bF2YnK9BPX
+      agent_arn: arn:aws:bedrock-agentcore:us-east-1:858946449855:runtime/team_lead-bF2YnK9BPX
+      agent_session_id: 6605639a-eede-407d-b821-e2205fae20a2
     codebuild:
       project_name: bedrock-agentcore-team_lead-builder
       execution_role: arn:aws:iam::858946449855:role/AmazonBedrockAgentCoreSDKCodeBuild-us-east-1-771d981c05
       source_bucket: bedrock-agentcore-codebuild-sources-858946449855-us-east-1
     memory:
-      mode: NO_MEMORY
-      memory_id: null
-      memory_arn: null
-      memory_name: null
+      mode: STM_ONLY
+      memory_id: team_lead_mem-IYljnXHAtW
+      memory_arn: arn:aws:bedrock-agentcore:us-east-1:858946449855:memory/team_lead_mem-IYljnXHAtW
+      memory_name: team_lead_mem
       event_expiry_days: 30
-      first_invoke_memory_check_done: false
-      was_created_by_toolkit: false
+      first_invoke_memory_check_done: true
+      was_created_by_toolkit: true
     authorizer_configuration: null
     request_header_configuration: null
     oauth_configuration: null
