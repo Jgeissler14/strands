@@ -1,15 +1,12 @@
-"""Strands Agent sample with AgentCore and specialist agent tools."""
-
+"""
+Strands Agent sample with AgentCore
+"""
 import os
-
 from strands import Agent
 from strands_tools.code_interpreter import AgentCoreCodeInterpreter
 from bedrock_agentcore.memory.integrations.strands.config import AgentCoreMemoryConfig, RetrievalConfig
 from bedrock_agentcore.memory.integrations.strands.session_manager import AgentCoreMemorySessionManager
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
-
-from embedded_agent_tool import content_blocks_to_text
-from specialists import create_specialist_tools
 
 app = BedrockAgentCoreApp()
 
@@ -45,28 +42,20 @@ def invoke(payload, context):
         auto_create=True
     )
 
-    team_lead = Agent(
+    agent = Agent(
         model=MODEL_ID,
         session_manager=session_manager,
-        name="team_lead",
-        description="Team lead who coordinates finance-focused specialists.",
-        system_prompt="""You are a strategic finance team lead.
-
-Coordinate specialist agents to deliver thorough answers. Delegate to:
-- finance_specialist for holistic financial analysis
-- contribution_margin_specialist for margin and profitability deep dives
-
-Always explain which specialists you consulted and synthesize their findings into an actionable summary.""",
-        tools=[
-            finance_tool,
-            margin_tool,
-        ],
+        system_prompt="""You are a helpful assistant with code execution capabilities. Use tools when appropriate.
+Response format when using code:
+1. Brief explanation of your approach
+2. Code block showing the executed code
+3. Results and analysis
+""",
+        tools=[code_interpreter.code_interpreter]
     )
 
-    prompt = payload.get("prompt", "")
-    result = team_lead(prompt)
-    response_text = content_blocks_to_text(result.message.get("content")) or str(result)
-    return {"response": response_text}
+    result = agent(payload.get("prompt", ""))
+    return {"response": result.message.get('content', [{}])[0].get('text', str(result))}
 
 if __name__ == "__main__":
     app.run()
