@@ -1,0 +1,44 @@
+default_agent: team_lead
+agents:
+  team_lead:
+    name: team_lead
+    entrypoint: /Users/joshuageissler/work/earnest/strands/team_lead.py
+    platform: linux/arm64
+    container_runtime: none
+    source_path: /Users/joshuageissler/work/earnest/strands
+    aws:
+      execution_role: arn:aws:iam::858946449855:role/AmazonBedrockAgentCoreSDKRuntime-us-east-1-771d981c05
+      execution_role_auto_create: false
+      account: '858946449855'
+      region: us-east-1
+      ecr_repository: 858946449855.dkr.ecr.us-east-1.amazonaws.com/bedrock-agentcore-team_lead
+      ecr_auto_create: false
+      network_configuration:
+        network_mode: PUBLIC
+        network_mode_config: null
+      protocol_configuration:
+        server_protocol: HTTP
+      observability:
+        enabled: true
+      lifecycle_configuration:
+        idle_runtime_session_timeout: null
+        max_lifetime: null
+    bedrock_agentcore:
+      agent_id: team_lead-r8xwK2D9SG
+      agent_arn: arn:aws:bedrock-agentcore:us-east-1:858946449855:runtime/team_lead-r8xwK2D9SG
+      agent_session_id: 1414d763-7c2c-4c3b-ae95-71088184b174
+    codebuild:
+      project_name: bedrock-agentcore-team_lead-builder
+      execution_role: arn:aws:iam::858946449855:role/AmazonBedrockAgentCoreSDKCodeBuild-us-east-1-771d981c05
+      source_bucket: bedrock-agentcore-codebuild-sources-858946449855-us-east-1
+    memory:
+      mode: NO_MEMORY
+      memory_id: null
+      memory_arn: null
+      memory_name: null
+      event_expiry_days: 30
+      first_invoke_memory_check_done: false
+      was_created_by_toolkit: false
+    authorizer_configuration: null
+    request_header_configuration: null
+    oauth_configuration: null

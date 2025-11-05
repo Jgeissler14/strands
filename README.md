@@ -1,93 +1,20 @@
-# Team Lead Agentcore Hosting
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-This repository bootstraps a "Team Lead" agent that is hosted through the
-[AWS Bedrock Agentcore Toolkit](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-get-started-toolkit.html)
-and orchestrates specialist Strands agents as tools. The Team Lead is the agent
-humans interact with, and it can delegate work to:
+# Install required packages (version 0.1.21 or later)
+pip install "bedrock-agentcore-starter-toolkit>=0.1.21" strands-agents strands-agents-tools boto3
 
-- **Contribution Margin Agent** – handles profitability questions.
-- **Company Data Agent** – responds with internal company policy or knowledge.
+# Create the Agentcore Agent
+agentcore configure -e team_lead.py
 
-The implementation currently provides mocked tool behavior so the hosting
-workflow can be validated before wiring real Strands agents.
-
-## Repository layout
-
-```
-src/
-  agentcore_hosting/
-    base.py                # Lightweight abstractions shared by agents
-    config.py              # Environment-driven configuration loader
-    runtime.py             # FastAPI runtime exposing /invoke and /health
-    team_lead.py           # Team Lead agent orchestration logic
-    tools/
-      contribution_margin.py
-      company_data.py
-agentcore/
-  manifest.yaml            # Skeleton manifest for Agentcore Toolkit deployments
-.env.example               # Environment variables expected by the runtime
-pyproject.toml             # Python project metadata and dependencies
-```
-
-## Getting started
-
-1. **Install dependencies**
-
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate
-   pip install -e .
-   ```
-
-   Optionally install the Strands extras once you have access to the SDK:
-
-   ```bash
-   pip install -e .[strands]
-   ```
-
-2. **Configure environment variables**
-
-   Copy `.env.example` to `.env` and populate the values:
-
-   - `AWS_REGION` and `AGENTCORE_AGENT_ID` are required for Agentcore.
-   - `AGENTCORE_HOST` and `AGENTCORE_PORT` control the HTTP runtime binding.
-   - `STRANDS_API_KEY`, `STRANDS_WORKSPACE_ID`, and the tool agent IDs connect to
-     Strands once those agents are provisioned.
-
-3. **Local simulation**
-
-   The Team Lead agent can be exercised locally using the simulation helper:
-
-   ```bash
-   python -m agentcore_hosting.team_lead
-   ```
-
-   Replace the placeholder keyword routing with a Strands planner once the SDK
-   is integrated. The `ContributionMarginAgent` and `CompanyDataAgent` classes
-   contain the hooks where Strands SDK calls should be added.
-
-4. **Agentcore hosting**
-
-   - Review `agentcore/manifest.yaml` and update the execution role ARN.
-   - Start the Agentcore HTTP runtime locally (defaults to `0.0.0.0:8080`):
-
-     ```bash
-     python -m agentcore_hosting.runtime
-     ```
-
-   - The runtime exposes `GET /health` and `POST /invoke` endpoints that align
-     with the Agentcore toolkit expectations.
-   - Package the project for deployment (`pip install build && python -m build`)
-     or containerize it following the toolkit documentation, wiring the
-     `agentcore_hosting.runtime:app` ASGI application into the serving
-     environment.
-
-## Next steps
-
-- Replace the mocked tool `run` methods with calls to live Strands agents using
-  the agent IDs from your workspace.
-- Enhance the `TeamLeadAgent.dispatch` logic to rely on Strands multi-agent
-  planning or a dedicated orchestrator, following the
-  [agent-to-agent guide](https://strandsagents.com/latest/documentation/docs/user-guide/concepts/multi-agent/agent-to-agent/).
-- Extend session state management to track decision traces across turns and to
-  share context with downstream Strands agents.
+ 1. Execution Role: Press Enter to auto-create or provide existing role ARN/name
+ 2. ECR Repository: Press Enter to auto-create or provide existing ECR URI
+ 3. Requirements File: Confirm the detected requirements.txt file or specify a different path 
+ 4. OAuth Configuration: Configure OAuth authorizer? (yes/no) - Type `no` for this tutorial
+ 5. Request Header Allowlist: Configure request header allowlist? (yes/no) - Type `no` for this tutorial
+ 6. Memory Configuration:
+    - If existing memories found: Choose from list or press Enter to create new
+    - If creating new: Enable long-term memory extraction? (yes/no) - Type `yes` for this tutorial
+    - Note: Short-term memory is always enabled by default
+    - Type `s` to skip memory setup
