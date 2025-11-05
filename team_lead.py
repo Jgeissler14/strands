@@ -42,6 +42,11 @@ def invoke(payload, context):
         session_manager=session_manager,
     )
 
+    finance_tool, margin_tool = create_specialist_tools(
+        model_id=MODEL_ID,
+        session_manager=session_manager,
+    )
+
     team_lead = Agent(
         model=MODEL_ID,
         session_manager=session_manager,
@@ -52,9 +57,11 @@ def invoke(payload, context):
 Coordinate specialist agents to deliver thorough answers. Delegate to:
 - finance_specialist for holistic financial analysis
 - contribution_margin_specialist for margin and profitability deep dives
+- code_interpreter for calculations or data validation
 
 Always explain which specialists you consulted and synthesize their findings into an actionable summary.""",
         tools=[
+            code_interpreter.code_interpreter,
             finance_tool,
             margin_tool,
         ],
