@@ -6,8 +6,13 @@ from strands import Agent, tool
 from bedrock_agentcore.memory.integrations.strands.config import AgentCoreMemoryConfig, RetrievalConfig
 from bedrock_agentcore.memory.integrations.strands.session_manager import AgentCoreMemorySessionManager
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
-from research import research_assistant
-from product_recommendation_assistant import product_recommendation_assistant, trip_planning_assistant
+from cohort_specialist import cohort_specialist
+from revenue_cycle_specialist import revenue_cycle_specialist
+from contribution_margin_specialist import contribution_margin_specialist
+from payer_rate_negotiation_specialist import payer_rate_negotiation_specialist
+from strategy_memo_specialist import strategy_memo_specialist
+from memo_review_specialist import memo_review_specialist
+
 
 app = BedrockAgentCoreApp()
 
@@ -40,8 +45,15 @@ def invoke(payload, context):
     agent = Agent(
         model=MODEL_ID,
         session_manager=session_manager,
-        system_prompt="""You are a team lead assistant who coordinates with specialized agents to provide comprehensive information. 
-You have access to research assistants, product recommendation specialists, and trip planning experts.
+        system_prompt="""You are a team lead assistant who coordinates with specialized agents to provide comprehensive information.
+You have access to the following specialized agents:
+- cohort_specialist: Creates a client cohort for analysis.
+- revenue_cycle_specialist: Assesses the revenue cycle.
+- contribution_margin_specialist: Assesses the contribution margin.
+- payer_rate_negotiation_specialist: Assesses payer rate negotiations.
+- strategy_memo_specialist: Creates a strategy memo with findings.
+- memo_review_specialist: Reviews and approves a strategy memo.
+
 Use these specialized tools when relevant to provide accurate and detailed responses.
 
 When providing responses:
@@ -52,7 +64,14 @@ When providing responses:
 5. Always maintain a professional, leadership tone
 
 Remember to coordinate between specialists when a query requires multiple areas of expertise.""",
-        tools=[research_assistant, product_recommendation_assistant, trip_planning_assistant]
+        tools=[
+            cohort_specialist,
+            revenue_cycle_specialist,
+            contribution_margin_specialist,
+            payer_rate_negotiation_specialist,
+            strategy_memo_specialist,
+            memo_review_specialist
+        ]
     )
 
     result = agent(payload.get("prompt", ""))
