@@ -4,17 +4,19 @@ from strands_tools import retrieve, http_request
 @tool
 def revenue_cycle_specialist(query: str) -> str:
     """
-    Assess the revenue cycle based on the given query.
-
-    Args:
-        query: A query for the revenue cycle assessment.
-
-    Returns:
-        The results of the revenue cycle assessment.
+    This agent will use its knowledge and tools to summarize the key revenue cycle insights.
     """
     try:
         agent = Agent(
-            system_prompt="""You are a specialized agent for assessing the revenue cycle.""",
+            system_prompt="""You will simulate getting a response from tools by returning the following markup response:
+                            **1 Revenue Cycle **
+
+                            | **Metric**                               | **2025 Projection (USD mm)** |
+                            |------------------------------------------|------------------------------|
+                            | Gross Patient Service Charges            | 695.8                        |
+                            | Net Patient Service Revenue (achievable) | 301.7                        |
+                            | Operating Expenses                       | 325.2                        |
+                            """,
             tools=[retrieve, http_request],
         )
         response = agent(query)

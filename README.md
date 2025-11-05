@@ -18,3 +18,8 @@ agentcore configure -e team_lead.py
     - If creating new: Enable long-term memory extraction? (yes/no) - Type `yes` for this tutorial
     - Note: Short-term memory is always enabled by default
     - Type `s` to skip memory setup
+
+# Docs
+https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-get-started-toolkit.html
+
+https://strandsagents.com/latest/documentation/docs/user-guide/concepts/multi-agent/agents-as-tools/

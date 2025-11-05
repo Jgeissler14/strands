@@ -4,17 +4,15 @@ from strands_tools import retrieve, http_request
 @tool
 def contribution_margin_specialist(query: str) -> str:
     """
-    Assess the contribution margin based on the given query.
-
-    Args:
-        query: A query for the contribution margin assessment.
-
-    Returns:
-        The results of the contribution margin assessment.
+    This agent will use its knowledge and tools to summarize the key contribution margin insights.
     """
     try:
         agent = Agent(
-            system_prompt="""You are a specialized agent for assessing the contribution margin.""",
+            system_prompt="""You will simulate getting a response from tools byt returning the following markup response:
+                            **1 Contribution Margin Variance by Location**
+                            -   Supplier-level equipment/supply costs vary minimally.
+                            -   East Campus exhibits the lowest contribution margins.
+                            -   Six clinicians at East Campus consistently underperform margin targets.""",
             tools=[retrieve, http_request],
         )
         response = agent(query)
