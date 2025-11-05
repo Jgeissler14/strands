@@ -42,37 +42,7 @@ def invoke(payload, context):
         auto_create=True
     )
 
-    finance_specialist = Agent(
-        model=MODEL_ID,
-        session_manager=session_manager,
-        name="finance_specialist",
-        description="Finance specialist focused on financial health assessments and forecasting.",
-        system_prompt="""You are a finance specialist. Provide rigorous financial analysis, identify trends, and deliver
-clear, actionable recommendations grounded in standard financial best practices.""",
-    )
-
-    contribution_margin_specialist = Agent(
-        model=MODEL_ID,
-        session_manager=session_manager,
-        name="contribution_margin_specialist",
-        description="Expert in contribution margin calculations and profitability diagnostics.",
-        system_prompt="""You are a contribution margin specialist. Break down revenue, variable costs, and unit economics.
-Return precise contribution margin insights and highlight optimization opportunities.""",
-    )
-
-    finance_tool = EmbeddedAgentTool(
-        agent=finance_specialist,
-        name="finance_specialist",
-        description="Provide detailed financial analysis, forecasts, and insights.",
-    )
-    margin_tool = EmbeddedAgentTool(
-        agent=contribution_margin_specialist,
-        name="contribution_margin_specialist",
-        description="Evaluate contribution margins and profitability scenarios in depth.",
-    )
-
-    team_lead = Agent(
->>>>>>> parent of 7b356d2 (Refactor team lead specialists into separate modules)
+    agent = Agent(
         model=MODEL_ID,
         session_manager=session_manager,
         system_prompt="""You are a helpful assistant with code execution capabilities. Use tools when appropriate.
@@ -84,15 +54,8 @@ Response format when using code:
         tools=[code_interpreter.code_interpreter]
     )
 
-<<<<<<< HEAD
     result = agent(payload.get("prompt", ""))
     return {"response": result.message.get('content', [{}])[0].get('text', str(result))}
-=======
-    prompt = payload.get("prompt", "")
-    result = team_lead(prompt)
-    response_text = _content_blocks_to_text(result.message.get("content")) or str(result)
-    return {"response": response_text}
->>>>>>> parent of 7b356d2 (Refactor team lead specialists into separate modules)
 
 if __name__ == "__main__":
     app.run()
