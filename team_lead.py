@@ -3,6 +3,7 @@
 import os
 
 from strands import Agent
+from strands_tools.code_interpreter import AgentCoreCodeInterpreter
 from bedrock_agentcore.memory.integrations.strands.config import AgentCoreMemoryConfig, RetrievalConfig
 from bedrock_agentcore.memory.integrations.strands.session_manager import AgentCoreMemorySessionManager
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
@@ -37,9 +38,11 @@ def invoke(payload, context):
         )
         session_manager = AgentCoreMemorySessionManager(memory_config, REGION)
 
-    finance_tool, margin_tool = create_specialist_tools(
-        model_id=MODEL_ID,
-        session_manager=session_manager,
+    # Create Code Interpreter with runtime session binding
+    code_interpreter = AgentCoreCodeInterpreter(
+        region=REGION,
+        session_name=session_id,
+        auto_create=True
     )
 
     finance_tool, margin_tool = create_specialist_tools(
